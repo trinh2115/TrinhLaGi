@@ -314,15 +314,32 @@
     </div>
   </div>
 
+  <!-- Overlay yêu cầu chạm để phát nhạc trên mobile -->
+  <div id="music-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;text-align:center;">
+    <div style="margin:auto;">Chạm vào để nghe nhạc!</div>
+  </div>
+
   <!-- Title -->
   <h1 class="title"><span id="title"></span></h1>
 
   <!-- Chèn nhạc tự động phát, ẩn điều khiển -->
   <audio id="bg-music" src="../music/Happy Birthday Remix.mp3" autoplay hidden></audio>
   <script>
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
     window.addEventListener('DOMContentLoaded', function() {
       var audio = document.getElementById('bg-music');
-      audio.play();
+      var overlay = document.getElementById('music-overlay');
+      if (isMobile()) {
+        overlay.style.display = 'flex';
+        overlay.addEventListener('touchstart', function() {
+          audio.play();
+          overlay.style.display = 'none';
+        }, { once: true });
+      } else {
+        audio.play();
+      }
     });
   </script>
   
